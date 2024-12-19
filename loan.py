@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-#Loan parameters
+# Loan parameters
 P = 180 * 1000
 loanTerm = 16
 annualInterest = 0.024
@@ -12,7 +12,6 @@ def monthly_payment(principal, monthlyInterest, numberOfPayments):
     payment = principal * \
             (monthlyInterest * ((1 + monthlyInterest) ** (numberOfPayments))) \
             / (((1 + monthlyInterest) ** numberOfPayments) - 1)
-    #  payment = payment/12
     return payment
 
 
@@ -25,6 +24,7 @@ for year in range(loanTerm):
     annualInterest = np.random.uniform(0.0055, 0.042)
     interestList.append(annualInterest)
     monthlyInterest = annualInterest / 12
+
     for month in range(12):
         currentMonth += 1
         interest = balance * monthlyInterest
@@ -32,13 +32,11 @@ for year in range(loanTerm):
         principal = payment - interest
         balance = balance - principal
         totalInterest += interest
-        print("Interest: %4f, Month %2d, Payment: %2d, Principal: %2d,\
-        Interest: %2d, totalInterest: %2d, Balance: %2d"\
-        % (monthlyInterest, currentMonth, payment, principal, interest,\
-        totalInterest, balance))
+        print("Interest: %4f | Month %2d | Payment: %4d | Principal: %2d | Interest: %2d | totalInterest: %4d | Balance: %2d"
+              % (monthlyInterest, currentMonth, payment, principal,
+                 interest, totalInterest, balance))
 
 print("Average interest: %3.2f" % (100*sum(interestList)/len(interestList)))
-
 print("Balance: %2d, Total interest: %2d" % (balance, totalInterest))
 
 # Optional: Visualization

@@ -66,7 +66,7 @@ axs[0, 0].grid(True)
 
 # Total Interest Paid
 axs[0, 1].plot(total_interest_paid,
-    label="Total Interest Paid", color="orange")
+               label="Total Interest Paid", color="orange")
 axs[0, 1].set_title("Cumulative Interest Paid Over Time")
 axs[0, 1].set_xlabel("Months")
 axs[0, 1].set_ylabel("Total Interest (€)")
@@ -81,7 +81,7 @@ axs[1, 0].grid(True)
 
 # Interest Rates
 axs[1, 1].plot(range(len(interest_rates)),
-    interest_rates, label="Annual Interest Rate", color="purple")
+               interest_rates, label="Annual Interest Rate", color="purple")
 axs[1, 1].set_title("Simulated Annual Interest Rates Over Time")
 axs[1, 1].set_xlabel("Years")
 axs[1, 1].set_ylabel("Interest Rate")

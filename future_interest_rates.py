@@ -1,3 +1,4 @@
+#  import yfinance as yf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -33,7 +34,8 @@ print(f"Volatility: {rate_volatility:.4f}")
 print(f"Drift: {drift:.4f}")
 
 # Simulate future rates (16 years)
-future_years = pd.date_range(start=years.iloc[-1], periods=25, freq='YE')[1:]  # Add future years
+future_years = pd.date_range(
+        start=years.iloc[-1], periods=25, freq='YE')[1:]  # Add future years
 future_rates = [rates.iloc[-1]]  # Start from the last historical rate
 
 for _ in range(1, len(future_years) + 1):
@@ -48,7 +50,9 @@ for _ in range(1, len(future_years) + 1):
 # Plot simulated future rates
 plt.figure(figsize=(10, 6))
 plt.plot(years, rates, marker='o', label="Historical Rates")
-plt.plot(future_years, future_rates[1:], marker='o', linestyle='--', label="Simulated Future Rates")
+plt.plot(
+        future_years, future_rates[1:],
+        marker='o', linestyle='--', label="Simulated Future Rates")
 plt.title("Historical and Simulated Interest Rates")
 plt.xlabel("Year")
 plt.ylabel("Interest Rate")
