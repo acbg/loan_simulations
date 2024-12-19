@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Loan parameters
-P = 180 * 1000
-loanTerm = 16
-annualInterest = 0.024
+P = 160 * 1000
+loanTerm = 25
+annualInterest = 0.030
 numberOfPayments = loanTerm * 12
 
 
@@ -19,6 +19,8 @@ totalInterest = 0
 currentMonth = 0
 balance = P
 interestList = []
+paymentPrincipalList = []
+paymentInterestList = []
 
 for year in range(loanTerm):
     annualInterest = np.random.uniform(0.0055, 0.042)
@@ -30,17 +32,20 @@ for year in range(loanTerm):
         interest = balance * monthlyInterest
         payment = monthly_payment(P, monthlyInterest, numberOfPayments)
         principal = payment - interest
+        paymentPrincipalList.append(principal)
+        paymentInterestList.append(interest)
         balance = balance - principal
         totalInterest += interest
-        print("Interest: %4f | Month %2d | Payment: %4d | Principal: %2d | Interest: %2d | totalInterest: %4d | Balance: %2d"
-              % (monthlyInterest, currentMonth, payment, principal,
-                 interest, totalInterest, balance))
+        #  print("Interest: %4f | Month %2d | Payment: %4d | Principal: %2d |\
+        #          Interest: %2d | totalInterest: %4d | Balance: %2d"
+        #        % (monthlyInterest, currentMonth, payment, principal,
+        #           interest, totalInterest, balance))
 
+print("Total interest: %4d" % sum(paymentInterestList))
 print("Average interest: %3.2f" % (100*sum(interestList)/len(interestList)))
 print("Balance: %2d, Total interest: %2d" % (balance, totalInterest))
 
 # Optional: Visualization
-plt.plot(range(len(interestList)), interestList)
 plt.plot(range(len(interestList)), interestList)
 plt.xlabel("Year")
 plt.ylabel("Annual Interest Rate")

@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 # Load historical data (ensure this file exists in your directory)
 data = pd.read_csv("ECB_euribor_12m.csv")
+#  print(data)
 
 # Convert DATE to datetime format and sort values
 data['DATE'] = pd.to_datetime(data['DATE'])
@@ -26,7 +27,7 @@ plt.legend()
 
 # Calculate mean, volatility, and drift
 mean_rate = rates.mean()
-rate_volatility = rates.std()
+rate_volatility = 1.0*rates.std()
 drift = (rates.iloc[-1] - rates.iloc[0]) / len(rates)  # Historical linear tren
 
 print(f"Mean Rate: {mean_rate:.4f}")
@@ -35,24 +36,24 @@ print(f"Drift: {drift:.4f}")
 
 # Simulate future rates (16 years)
 future_years = pd.date_range(
-        start=years.iloc[-1], periods=25, freq='YE')[1:]  # Add future years
+        start=years.iloc[-1], periods=250, freq='ME')[1:]  # Add future years
 future_rates = [rates.iloc[-1]]  # Start from the last historical rate
 
 for _ in range(1, len(future_years) + 1):
     noise = np.random.normal(0, rate_volatility)
-    print(f"Noise: {noise:.4f}, Drift: {drift:.4f}")
+    #  print(f"Noise: {noise:.4f}, Drift: {drift:.4f}")
     new_rate = future_rates[-1] + drift + noise
-    print(f"New rate: {new_rate: .4f}")
-    new_rate = max(1, min(6, new_rate))  # Keep within realistic bounds
-    print(f"New rate: {new_rate: .4f}")
+    #  print(f"New rate: {new_rate: .4f}")
+    new_rate = max(-0.8, min(8, new_rate))  # Keep within realistic bounds
+    #  print(f"New rate: {new_rate: .4f}")
     future_rates.append(new_rate)
 
 # Plot simulated future rates
 plt.figure(figsize=(10, 6))
-plt.plot(years, rates, marker='o', label="Historical Rates")
-plt.plot(
-        future_years, future_rates[1:],
-        marker='o', linestyle='--', label="Simulated Future Rates")
+plt.plot(years, rates, marker='o',
+         label="Historical Rates")
+plt.plot(future_years, future_rates[1:], marker='o', linestyle='--',
+         label="Simulated Future Rates")
 plt.title("Historical and Simulated Interest Rates")
 plt.xlabel("Year")
 plt.ylabel("Interest Rate")
