@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Loan parameters
-P = 180_000  # Principal loan amount
-loanTerm = 25  # Loan term in years
+P = 150_000  # Principal loan amount
+loanTerm = 20  # Loan term in years
 numberOfPayments = loanTerm * 12  # Total number of monthly payments
 initial_rate = 0.005  # Initial annual interest rate
 
@@ -33,12 +33,19 @@ balances = []
 monthly_payments = []
 total_interest_paid = []
 cumulative_interest = 0
+monthly_interests = []
+monthly_principals = []
 
 # Simulation
 balance = P
+#  payment, principal, interest = 0, 0, 0
+
 for year in range(loanTerm):
     annualInterest = interest_rates[year]
     monthlyInterest = annualInterest / 12
+    #  print(f"Year: {year:d}, Interest: {100*annualInterest:.3f}%,\
+    #          Payment: {payment:.0f}, Principal: {principal:.0f},\
+    #        Interest: {interest:.0f}")
     for month in range(12):
         payment = monthly_payment(P, monthlyInterest, numberOfPayments)
         interest = balance * monthlyInterest
@@ -50,6 +57,9 @@ for year in range(loanTerm):
         balances.append(balance)
         monthly_payments.append(payment)
         total_interest_paid.append(cumulative_interest)
+        monthly_interests.append(interest)
+        monthly_principals.append(principal)
+
 
 # Final Results
 print(f"Final Balance: {balances[-1]:.2f}")
@@ -60,6 +70,8 @@ fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 # Remaining Balance
 axs[0, 0].plot(balances,
                label="Remaining Balance", color="blue")
+axs[0, 0].plot(total_interest_paid,
+               label="Total Interest Paid", color="red")
 axs[0, 0].set_title("Remaining Loan Balance Over Time")
 axs[0, 0].set_xlabel("Months")
 axs[0, 0].set_ylabel("Balance (€)")
@@ -75,8 +87,15 @@ axs[0, 1].grid(True)
 
 # Monthly Payments
 axs[1, 0].plot(monthly_payments,
-               label="Monthly Payment", color="green")
-axs[1, 0].set_title("Monthly Payments Over Time")
+               label="Payment", color="blue")
+
+axs[1, 0].plot(monthly_principals,
+               label="Principal", color="green")
+
+axs[1, 0].plot(monthly_interests,
+               label="Interest", color="red")
+
+axs[1, 0].set_title("Simulated Annual Payments, Principals and Interest")
 axs[1, 0].set_xlabel("Months")
 axs[1, 0].set_ylabel("Monthly Payment (€)")
 axs[1, 0].grid(True)
@@ -88,6 +107,7 @@ axs[1, 1].set_title("Simulated Annual Interest Rates Over Time")
 axs[1, 1].set_xlabel("Years")
 axs[1, 1].set_ylabel("Interest Rate")
 axs[1, 1].grid(True)
+
 
 # Add legends and adjust layout
 for ax in axs.flat:
